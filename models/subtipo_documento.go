@@ -10,7 +10,7 @@ import (
 )
 
 type SubtipoDocumento struct {
-	Id     int            `orm:"column(id);pk"`
+	Id     int            `orm:"column(id);pk;auto"`
 	Padre  *TipoDocumento `orm:"column(padre);rel(fk)"`
 	Hijo   *TipoDocumento `orm:"column(hijo);rel(fk)"`
 	Activo bool           `orm:"column(activo)"`
