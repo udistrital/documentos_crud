@@ -10,15 +10,16 @@ import (
 )
 
 type TipoDocumento struct {
-	Id                int     `orm:"column(id);pk;auto"`
-	Nombre            string  `orm:"column(nombre)"`
-	Descripcion       string  `orm:"column(descripcion);null"`
-	CodigoAbreviacion string  `orm:"column(codigo_abreviacion);null"`
-	Activo            bool    `orm:"column(activo)"`
-	NumeroOrden       float64 `orm:"column(numero_orden);null"`
-	Tamano            float64 `orm:"column(tamano);null"`
-	Extension         string  `orm:"column(extension);null"`
-	Workspace         string  `orm:"column(workspace)"`
+	Id                 int     `orm:"column(id);pk;auto"`
+	Nombre             string  `orm:"column(nombre)"`
+	Descripcion        string  `orm:"column(descripcion);null"`
+	CodigoAbreviacion  string  `orm:"column(codigo_abreviacion);null"`
+	Activo             bool    `orm:"column(activo)"`
+	NumeroOrden        float64 `orm:"column(numero_orden);null"`
+	Tamano             float64 `orm:"column(tamano);null"`
+	Extension          string  `orm:"column(extension);null"`
+	Workspace          string  `orm:"column(workspace)"`
+	TipoDocumentoNuxeo string  `orm:"column(tipo_documento_nuxeo);null"`
 }
 
 func (t *TipoDocumento) TableName() string {

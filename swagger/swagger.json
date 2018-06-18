@@ -611,6 +611,9 @@
                     "type": "number",
                     "format": "double"
                 },
+                "TipoDocumentoNuxeo": {
+                    "type": "string"
+                },
                 "Workspace": {
                     "type": "string"
                 }
