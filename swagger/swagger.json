@@ -15,7 +15,7 @@
     },
     "basePath": "/v1",
     "paths": {
-        "/documento": {
+        "/documento/": {
             "get": {
                 "tags": [
                     "documento"
@@ -188,7 +188,7 @@
                 }
             }
         },
-        "/subtipo_documento": {
+        "/subtipo_documento/": {
             "get": {
                 "tags": [
                     "subtipo_documento"
@@ -361,7 +361,7 @@
                 }
             }
         },
-        "/tipo_documento": {
+        "/tipo_documento/": {
             "get": {
                 "tags": [
                     "tipo_documento"
