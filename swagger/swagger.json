@@ -546,6 +546,9 @@
                 "Enlace": {
                     "type": "string"
                 },
+                "FechaModificacion": {
+                    "type": "string"
+                },
                 "Id": {
                     "type": "integer",
                     "format": "int64"
@@ -568,14 +571,17 @@
                 "Activo": {
                     "type": "boolean"
                 },
-                "Hijo": {
-                    "$ref": "#/definitions/models.TipoDocumento"
+                "FechaModificacion": {
+                    "type": "string"
                 },
                 "Id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Padre": {
+                "TipoDocumentoHijo": {
+                    "$ref": "#/definitions/models.TipoDocumento"
+                },
+                "TipoDocumentoPadre": {
                     "$ref": "#/definitions/models.TipoDocumento"
                 }
             }
@@ -594,6 +600,9 @@
                     "type": "string"
                 },
                 "Extension": {
+                    "type": "string"
+                },
+                "FechaModificacion": {
                     "type": "string"
                 },
                 "Id": {

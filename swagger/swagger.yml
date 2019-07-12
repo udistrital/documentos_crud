@@ -365,6 +365,8 @@ definitions:
         type: string
       Enlace:
         type: string
+      FechaModificacion:
+        type: string
       Id:
         type: integer
         format: int64
@@ -380,12 +382,14 @@ definitions:
     properties:
       Activo:
         type: boolean
-      Hijo:
-        $ref: '#/definitions/models.TipoDocumento'
+      FechaModificacion:
+        type: string
       Id:
         type: integer
         format: int64
-      Padre:
+      TipoDocumentoHijo:
+        $ref: '#/definitions/models.TipoDocumento'
+      TipoDocumentoPadre:
         $ref: '#/definitions/models.TipoDocumento'
   models.TipoDocumento:
     title: TipoDocumento
@@ -398,6 +402,8 @@ definitions:
       Descripcion:
         type: string
       Extension:
+        type: string
+      FechaModificacion:
         type: string
       Id:
         type: integer
