@@ -1,0 +1,2 @@
+-- inserts documento.tipo_documento
+INSERT INTO documento.tipo_documento(nombre, descripcion, codigo_abreviacion, activo, numero_orden,tamano,extension,workspace,tipo_documento_nuxeo) VALUES ('Foto inscripción','Foto inscripción','FI', true,1,0,'png,jpg'','/default-domain/workspaces/Pruebas Planestic/Inscripcion/Fotos','Picture');
