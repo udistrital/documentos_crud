@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-	"time"
 
 	"github.com/astaxie/beego/orm"
+	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 type Documento struct {
@@ -17,6 +17,7 @@ type Documento struct {
 	Enlace            string         `orm:"column(enlace)"`
 	TipoDocumento     *TipoDocumento `orm:"column(tipo_documento);rel(fk)"`
 	Metadatos         string         `orm:"column(metadatos);type(json);null"`
+	FechaCreacion     string         `orm:"column(fecha_creacion);null"`
 	FechaModificacion string         `orm:"column(fecha_modificacion);null"`
 }
 
@@ -31,9 +32,8 @@ func init() {
 // AddDocumento insert a new Documento into database and returns
 // last inserted Id on success.
 func AddDocumento(m *Documento) (id int64, err error) {
-	var t time.Time
-	t = time.Now()
-	m.FechaModificacion = fmt.Sprintf("%s", t.UTC().Format(time.UnixDate))
+	m.FechaCreacion = time_bogota.TiempoBogotaFormato()
+	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	o := orm.NewOrm()
 	id, err = o.Insert(m)
 	return
@@ -133,9 +133,7 @@ func GetAllDocumento(query map[string]string, fields []string, sortby []string, 
 func UpdateDocumentoById(m *Documento) (err error) {
 	o := orm.NewOrm()
 	v := Documento{Id: m.Id}
-	var t time.Time
-	t = time.Now()
-	m.FechaModificacion = fmt.Sprintf("%s", t.UTC().Format(time.UnixDate))
+	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
