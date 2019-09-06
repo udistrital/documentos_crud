@@ -1,10 +1,10 @@
 {
   "Nombre": "",
   "Descripcion": "",
-  "CodigoAbreviacion": 1,
+  "CodigoAbreviacion": "",
   "Activo": false,
   "NumeroOrden": 0,
-  "Tamano": 0,
+  "Tamano": "0",
   "Extension": "",
   "Workspace": "",
   "TipoDocumentoNuxeo": "",
