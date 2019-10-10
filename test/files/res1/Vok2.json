@@ -1,0 +1,14 @@
+{
+  "title": "Example Schema",
+  "type": "object",
+  "properties": {
+    "Id": { "type": "integer" },
+    "Nombre": { "type": "string" },
+    "Descripcion": { "type": "string" },
+    "Enlace": { "type": "string" },
+    "TipoDocumento": { "type": "TipoDocumento" },
+    "Metadatos": { "type": "string" },
+    "FechaCreacion": { "type": "string" },
+    "FechaModificacion": { "type": "string" }
+  }
+}
