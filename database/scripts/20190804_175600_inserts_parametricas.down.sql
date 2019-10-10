@@ -1,0 +1,1 @@
+delete from documento.tipo_documento;

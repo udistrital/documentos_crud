@@ -48,8 +48,8 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/models.Documento'
-        "403":
-          description: ""
+        "404":
+          description: not found resource
     post:
       tags:
       - documento
@@ -65,8 +65,8 @@ paths:
       responses:
         "201":
           description: '{int} models.Documento'
-        "403":
-          description: body is empty
+        "400":
+          description: the request contains incorrect syntax
   /documento/{id}:
     get:
       tags:
@@ -84,8 +84,8 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/models.Documento'
-        "403":
-          description: :id is empty
+        "404":
+          description: not found resource
     put:
       tags:
       - documento
@@ -108,8 +108,8 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/models.Documento'
-        "403":
-          description: :id is not int
+        "400":
+          description: the request contains incorrect syntax
     delete:
       tags:
       - documento
@@ -124,8 +124,8 @@ paths:
       responses:
         "200":
           description: '{string} delete success!'
-        "403":
-          description: id is empty
+        "404":
+          description: not found resource
   /subtipo_documento/:
     get:
       tags:
@@ -163,8 +163,8 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/models.SubtipoDocumento'
-        "403":
-          description: ""
+        "404":
+          description: not found resource
     post:
       tags:
       - subtipo_documento
@@ -180,8 +180,8 @@ paths:
       responses:
         "201":
           description: '{int} models.SubtipoDocumento'
-        "403":
-          description: body is empty
+        "400":
+          description: the request contains incorrect syntax
   /subtipo_documento/{id}:
     get:
       tags:
@@ -199,8 +199,8 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/models.SubtipoDocumento'
-        "403":
-          description: :id is empty
+        "404":
+          description: not found resource
     put:
       tags:
       - subtipo_documento
@@ -223,8 +223,8 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/models.SubtipoDocumento'
-        "403":
-          description: :id is not int
+        "400":
+          description: the request contains incorrect syntax
     delete:
       tags:
       - subtipo_documento
@@ -239,8 +239,8 @@ paths:
       responses:
         "200":
           description: '{string} delete success!'
-        "403":
-          description: id is empty
+        "404":
+          description: not found resource
   /tipo_documento/:
     get:
       tags:
@@ -278,8 +278,8 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/models.TipoDocumento'
-        "403":
-          description: ""
+        "404":
+          description: not found resource
     post:
       tags:
       - tipo_documento
@@ -295,8 +295,8 @@ paths:
       responses:
         "201":
           description: '{int} models.TipoDocumento'
-        "403":
-          description: body is empty
+        "400":
+          description: the request contains incorrect syntax
   /tipo_documento/{id}:
     get:
       tags:
@@ -314,8 +314,8 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/models.TipoDocumento'
-        "403":
-          description: :id is empty
+        "404":
+          description: not found resource
     put:
       tags:
       - tipo_documento
@@ -338,8 +338,8 @@ paths:
           description: ""
           schema:
             $ref: '#/definitions/models.TipoDocumento'
-        "403":
-          description: :id is not int
+        "400":
+          description: the request contains incorrect syntax
     delete:
       tags:
       - tipo_documento
@@ -354,8 +354,8 @@ paths:
       responses:
         "200":
           description: '{string} delete success!'
-        "403":
-          description: id is empty
+        "404":
+          description: not found resource
 definitions:
   models.Documento:
     title: Documento
@@ -364,6 +364,10 @@ definitions:
       Descripcion:
         type: string
       Enlace:
+        type: string
+      FechaCreacion:
+        type: string
+      FechaModificacion:
         type: string
       Id:
         type: integer
@@ -380,12 +384,16 @@ definitions:
     properties:
       Activo:
         type: boolean
-      Hijo:
-        $ref: '#/definitions/models.TipoDocumento'
+      FechaCreacion:
+        type: string
+      FechaModificacion:
+        type: string
       Id:
         type: integer
         format: int64
-      Padre:
+      TipoDocumentoHijo:
+        $ref: '#/definitions/models.TipoDocumento'
+      TipoDocumentoPadre:
         $ref: '#/definitions/models.TipoDocumento'
   models.TipoDocumento:
     title: TipoDocumento
@@ -398,6 +406,10 @@ definitions:
       Descripcion:
         type: string
       Extension:
+        type: string
+      FechaCreacion:
+        type: string
+      FechaModificacion:
         type: string
       Id:
         type: integer

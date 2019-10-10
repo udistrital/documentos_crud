@@ -26,6 +26,12 @@ import (
 // @resStatus codigo de respuesta a las solicitudes a la api
 var resStatus string
 
+// @resDuplex JSON repuesta Duplicacion
+var resDuplex string
+
+// @resDelete JSON repuesta Delete
+var resDelete string
+
 //@resBody JSON de respuesta a las solicitudesde la api
 var resBody []byte
 
@@ -35,11 +41,17 @@ var Id float64
 
 //@Parametrica estructura de las tablas parametricas
 type Parametrica struct {
-	Nombre            string
-	Descripcion       string
-	CodigoAbreviacion string
-	Activo            bool
-	NumeroOrden       float64
+	Nombre             string
+	Descripcion        string
+	CodigoAbreviacion  string
+	Activo             bool
+	NumeroOrden        float64
+	Tamano             float64
+	Extension          string
+	Workspace          string
+	TipoDocumentoNuxeo string
+	FechaCreacion      time.Time
+	FechaModificacion  time.Time
 }
 
 //@opt opciones de godog
@@ -80,11 +92,17 @@ func gen_files() {
 
 	nombre := t.Format(especificacion)
 	atributo := Parametrica{
-		Nombre:            nombre,
-		Descripcion:       "string",
-		CodigoAbreviacion: "string",
-		Activo:            true,
-		NumeroOrden:       0,
+		Nombre:             nombre,
+		Descripcion:        "string",
+		CodigoAbreviacion:  "string",
+		Activo:             true,
+		NumeroOrden:        0,
+		Tamano:             0,
+		Extension:          "string",
+		Workspace:          "string",
+		TipoDocumentoNuxeo: "string",
+		FechaCreacion:      t,
+		FechaModificacion:  t,
 	}
 	rankingsJson, _ := json.Marshal(atributo)
 	ioutil.WriteFile("./files/req/Yt1.json", rankingsJson, 0644)
@@ -119,7 +137,6 @@ func deleteFile(path string) {
 	if err != nil {
 		fmt.Errorf("no se pudo eliminar el archivo")
 	}
-
 }
 
 //@exe_cmd ejecuta comandos en la terminal
@@ -179,24 +196,26 @@ func getPages(ruta string) []byte {
 
 //@iSendRequestToWhereBodyIsJson realiza la solicitud a la API
 func iSendRequestToWhereBodyIsJson(method, endpoint, bodyreq string) error {
-
 	var url string
 
 	if method == "GET" || method == "POST" {
 		url = "http://localhost:" + beego.AppConfig.String("httpport") + endpoint
-
 	} else {
 		if method == "PUT" || method == "DELETE" {
-			str := strconv.FormatFloat(Id, 'f', 5, 64)
+			str := strconv.FormatFloat(Id, 'f', 0, 64)
 			url = "http://localhost:" + beego.AppConfig.String("httpport") + endpoint + "/" + str
-
 		}
 	}
 	if method == "GETID" {
 		method = "GET"
-		str := strconv.FormatFloat(Id, 'f', 5, 64)
+		str := strconv.FormatFloat(Id, 'f', 0, 64)
 		url = "http://localhost:" + beego.AppConfig.String("httpport") + endpoint + "/" + str
-
+	}
+	if method == "DELETE" {
+		str := strconv.FormatFloat(Id, 'f', 0, 64)
+		url = "http://localhost:" + beego.AppConfig.String("httpport") + endpoint + "/" + str
+		resDelete = "{\"Id\":" + str + "}"
+		ioutil.WriteFile("./files/res3/Ino.json", []byte(resDelete), 0644)
 	}
 
 	pages := getPages(bodyreq)
@@ -219,8 +238,15 @@ func iSendRequestToWhereBodyIsJson(method, endpoint, bodyreq string) error {
 	if method == "POST" && resStatus == "201 Created" {
 		ioutil.WriteFile("./files/req/Yt2.json", resBody, 0644)
 		json.Unmarshal([]byte(bodyr), &savepostres)
-		Id = savepostres["Body"].(map[string]interface{})["Id"].(float64)
+		Id = savepostres["Id"].(float64)
 
+		resDuplex = "{\r\n\t\"Development\": null,\r\n\t\"Message\": \"The request contains incorrect syntax\",\r\n\t\"Status\": \"400\",\r\n\t\"System\": {\r\n"
+		resDuplex = resDuplex + "\t\t\"Severity\": \"ERROR\",\r\n\t\t\"Code\": \"23505\",\r\n\t\t\"Message\": \"llave duplicada viola restricción de unicidad «pk_tipo_documento»\",\r\n"
+		resDuplex = resDuplex + "\t\t\"Detail\": \"Ya existe la llave (id)=(" + strconv.Itoa(int(Id)) + ").\",\r\n\t\t\"Hint\": \"\",\r\n\t\t\"Position\": \"\",\r\n\t\t\"InternalPosition\": \"\",\r\n"
+		resDuplex = resDuplex + "\t\t\"InternalQuery\": \"\",\r\n\t\t\"Where\": \"\",\r\n\t\t\"Schema\": \"core_new\",\r\n\t\t\"Table\": \"tipo_documento\",\r\n\t\t\"Column\": \"\",\r\n"
+		resDuplex = resDuplex + "\t\t\"DataTypeName\": \"\",\r\n\t\t\"Constraint\": \"pk_tipo_documento\",\r\n\t\t\"File\": \"nbtinsert.c\",\r\n\t\t\"Line\": \"434\",\r\n\t\t\"Routine\": \"_bt_check_unique\"\r\n\t}\r\n}"
+
+		ioutil.WriteFile("./files/res3/Ierr12.json", []byte(resDuplex), 0644)
 	}
 	return nil
 
