@@ -13,7 +13,7 @@ CREATE TABLE documento.documento (
 	nombre character varying(150) NOT NULL,
 	descripcion character varying(250),
 	enlace character varying(100) NOT NULL,
-	tipo_documento_id integer NOT NULL,
+	tipo_documento integer NOT NULL,
 	metadatos json,
 	activo boolean NOT NULL,
 	fecha_creacion timestamp NOT NULL DEFAULT now(),
@@ -89,7 +89,7 @@ COMMENT ON CONSTRAINT pk_tipo_documento ON documento.tipo_documento  IS 'Llave p
 
 -- object: fk_documento_tipo_documento | type: CONSTRAINT --
 -- ALTER TABLE documento.documento DROP CONSTRAINT IF EXISTS fk_documento_tipo_documento CASCADE;
-ALTER TABLE documento.documento ADD CONSTRAINT fk_documento_tipo_documento FOREIGN KEY (tipo_documento_id)
+ALTER TABLE documento.documento ADD CONSTRAINT fk_documento_tipo_documento FOREIGN KEY (tipo_documento)
 REFERENCES documento.tipo_documento (id) MATCH FULL
 ON DELETE RESTRICT ON UPDATE CASCADE;
 -- ddl-end --
