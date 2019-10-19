@@ -7,7 +7,7 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
-	"github.com/planesticud/documentos_crud/models"
+	"github.com/udistrital/documentos_crud/models"
 )
 
 // TipoDocumentoController operations for TipoDocumento

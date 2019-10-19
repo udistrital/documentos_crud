@@ -361,6 +361,8 @@ definitions:
     title: Documento
     type: object
     properties:
+      Activo:
+        type: boolean
       Descripcion:
         type: string
       Enlace:

@@ -17,6 +17,7 @@ type Documento struct {
 	Enlace            string         `orm:"column(enlace)"`
 	TipoDocumento     *TipoDocumento `orm:"column(tipo_documento);rel(fk)"`
 	Metadatos         string         `orm:"column(metadatos);type(json);null"`
+	Activo            bool    		 `orm:"column(activo)"`
 	FechaCreacion     string         `orm:"column(fecha_creacion);null"`
 	FechaModificacion string         `orm:"column(fecha_modificacion);null"`
 }
@@ -35,6 +36,7 @@ func AddDocumento(m *Documento) (id int64, err error) {
 	m.FechaCreacion = time_bogota.TiempoBogotaFormato()
 	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	o := orm.NewOrm()
+	fmt.Println("Documento", m)
 	id, err = o.Insert(m)
 	return
 }
