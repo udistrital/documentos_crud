@@ -1,190 +1,158 @@
-package controllers
+package models
 
 import (
-	"encoding/json"
-	"strconv"
+	"errors"
+	"fmt"
+	"reflect"
 	"strings"
 
-	"github.com/fatih/structs"
-	"github.com/udistrital/documentos_crud/models"
-	"github.com/udistrital/utils_oas/formatdata"
-
-	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+	"github.com/udistrital/utils_oas/time_bogota"
 )
 
-// SubtipoDocumentoController operations for SubtipoDocumento
-type SubtipoDocumentoController struct {
-	beego.Controller
+type SubtipoDocumento struct {
+	Id                 int            `orm:"column(id);pk;auto"`
+	TipoDocumentoPadre *TipoDocumento `orm:"column(tipo_documento_padre);rel(fk)"`
+	TipoDocumentoHijo  *TipoDocumento `orm:"column(tipo_documento_hijo);rel(fk)"`
+	Activo             bool           `orm:"column(activo)"`
+	FechaCreacion      string         `orm:"column(fecha_creacion);null"`
+	FechaModificacion  string         `orm:"column(fecha_modificacion);null"`
 }
 
-// URLMapping ...
-func (c *SubtipoDocumentoController) URLMapping() {
-	c.Mapping("Post", c.Post)
-	c.Mapping("GetOne", c.GetOne)
-	c.Mapping("GetAll", c.GetAll)
-	c.Mapping("Put", c.Put)
-	c.Mapping("Delete", c.Delete)
+func (t *SubtipoDocumento) TableName() string {
+	return "subtipo_documento"
 }
 
-// Post ...
-// @Title Post
-// @Description create SubtipoDocumento
-// @Param	body		body 	models.SubtipoDocumento	true		"body for SubtipoDocumento content"
-// @Success 201 {int} models.SubtipoDocumento
-// @Failure 403 body is empty
-// @router / [post]
-func (c *SubtipoDocumentoController) Post() {
-	var v models.SubtipoDocumento
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if _, err := models.AddSubtipoDocumento(&v); err == nil {
-			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = models.Alert{Type: "success", Code: "S_201", Body: v}
+func init() {
+	orm.RegisterModel(new(SubtipoDocumento))
+}
+
+// AddSubtipoDocumento insert a new SubtipoDocumento into database and returns
+// last inserted Id on success.
+func AddSubtipoDocumento(m *SubtipoDocumento) (id int64, err error) {
+	m.FechaCreacion = time_bogota.TiempoBogotaFormato()
+	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
+	o := orm.NewOrm()
+	id, err = o.Insert(m)
+	return
+}
+
+// GetSubtipoDocumentoById retrieves SubtipoDocumento by Id. Returns error if
+// Id doesn't exist
+func GetSubtipoDocumentoById(id int) (v *SubtipoDocumento, err error) {
+	o := orm.NewOrm()
+	v = &SubtipoDocumento{Id: id}
+	if err = o.Read(v); err == nil {
+		return v, nil
+	}
+	return nil, err
+}
+
+// GetAllSubtipoDocumento retrieves all SubtipoDocumento matches certain condition. Returns empty list if
+// no records exist
+func GetAllSubtipoDocumento(query map[string]string, fields []string, sortby []string, order []string,
+	offset int64, limit int64) (ml []interface{}, err error) {
+	o := orm.NewOrm()
+	qs := o.QueryTable(new(SubtipoDocumento))
+	// query k=v
+	for k, v := range query {
+		// rewrite dot-notation to Object__Attribute
+		k = strings.Replace(k, ".", "__", -1)
+		if strings.Contains(k, "isnull") {
+			qs = qs.Filter(k, (v == "true" || v == "1"))
 		} else {
-			alertdb := structs.Map(err)
-			var code string
-			err := formatdata.FillStruct(alertdb["Code"], &code)
-			if err == nil {
-				alert := models.Alert{Type: "error", Code: "E_000", Body: err.Error()}
-				c.Data["json"] = alert
+			qs = qs.Filter(k, v)
+		}
+	}
+	// order by:
+	var sortFields []string
+	if len(sortby) != 0 {
+		if len(sortby) == len(order) {
+			// 1) for each sort field, there is an associated order
+			for i, v := range sortby {
+				orderby := ""
+				if order[i] == "desc" {
+					orderby = "-" + v
+				} else if order[i] == "asc" {
+					orderby = v
+				} else {
+					return nil, errors.New("Error: Invalid order. Must be either [asc|desc]")
+				}
+				sortFields = append(sortFields, orderby)
 			}
-			alert := models.Alert{Type: "error", Code: "E_" + code, Body: err.Error()}
-			c.Data["json"] = alert
+			qs = qs.OrderBy(sortFields...)
+		} else if len(sortby) != len(order) && len(order) == 1 {
+			// 2) there is exactly one order, all the sorted fields will be sorted by this order
+			for _, v := range sortby {
+				orderby := ""
+				if order[0] == "desc" {
+					orderby = "-" + v
+				} else if order[0] == "asc" {
+					orderby = v
+				} else {
+					return nil, errors.New("Error: Invalid order. Must be either [asc|desc]")
+				}
+				sortFields = append(sortFields, orderby)
+			}
+		} else if len(sortby) != len(order) && len(order) != 1 {
+			return nil, errors.New("Error: 'sortby', 'order' sizes mismatch or 'order' size is not 1")
 		}
 	} else {
-		c.Data["json"] = models.Alert{Type: "error", Code: "E_400", Body: err.Error()}
-	}
-	c.ServeJSON()
-}
-
-// GetOne ...
-// @Title Get One
-// @Description get SubtipoDocumento by id
-// @Param	id		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.SubtipoDocumento
-// @Failure 403 :id is empty
-// @router /:id [get]
-func (c *SubtipoDocumentoController) GetOne() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	v, err := models.GetSubtipoDocumentoById(id)
-	if err != nil {
-		c.Data["json"] = models.Alert{Type: "error", Code: "E_400", Body: err.Error()}
-	} else {
-		c.Data["json"] = v
-	}
-	c.ServeJSON()
-}
-
-// GetAll ...
-// @Title Get All
-// @Description get SubtipoDocumento
-// @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
-// @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
-// @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
-// @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
-// @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
-// @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.SubtipoDocumento
-// @Failure 403
-// @router / [get]
-func (c *SubtipoDocumentoController) GetAll() {
-	var fields []string
-	var sortby []string
-	var order []string
-	var query = make(map[string]string)
-	var limit int64 = 10
-	var offset int64
-
-	// fields: col1,col2,entity.col3
-	if v := c.GetString("fields"); v != "" {
-		fields = strings.Split(v, ",")
-	}
-	// limit: 10 (default is 10)
-	if v, err := c.GetInt64("limit"); err == nil {
-		limit = v
-	}
-	// offset: 0 (default is 0)
-	if v, err := c.GetInt64("offset"); err == nil {
-		offset = v
-	}
-	// sortby: col1,col2
-	if v := c.GetString("sortby"); v != "" {
-		sortby = strings.Split(v, ",")
-	}
-	// order: desc,asc
-	if v := c.GetString("order"); v != "" {
-		order = strings.Split(v, ",")
-	}
-	// query: k:v,k:v
-	if v := c.GetString("query"); v != "" {
-		for _, cond := range strings.Split(v, ",") {
-			kv := strings.SplitN(cond, ":", 2)
-			if len(kv) != 2 {
-				c.Data["json"] = models.Alert{Type: "error", Code: "E_400", Body: "Error: invalid query key/value pair"}
-				c.ServeJSON()
-				return
-			}
-			k, v := kv[0], kv[1]
-			query[k] = v
+		if len(order) != 0 {
+			return nil, errors.New("Error: unused 'order' fields")
 		}
 	}
 
-	l, err := models.GetAllSubtipoDocumento(query, fields, sortby, order, offset, limit)
-	if err != nil {
-		c.Data["json"] = models.Alert{Type: "error", Code: "E_400", Body: err.Error()}
-	} else {
-		c.Data["json"] = l
-	}
-	c.ServeJSON()
-}
-
-// Put ...
-// @Title Put
-// @Description update the SubtipoDocumento
-// @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.SubtipoDocumento	true		"body for SubtipoDocumento content"
-// @Success 200 {object} models.SubtipoDocumento
-// @Failure 403 :id is not int
-// @router /:id [put]
-func (c *SubtipoDocumentoController) Put() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	v := models.SubtipoDocumento{Id: id}
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.UpdateSubtipoDocumentoById(&v); err == nil {
-			c.Ctx.Output.SetStatus(200)
-			c.Data["json"] = models.Alert{Type: "success", Code: "S_200", Body: v}
+	var l []SubtipoDocumento
+	qs = qs.OrderBy(sortFields...)
+	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
+		if len(fields) == 0 {
+			for _, v := range l {
+				ml = append(ml, v)
+			}
 		} else {
-			alertdb := structs.Map(err)
-			var code string
-			err := formatdata.FillStruct(alertdb["Code"], &code)
-			if err == nil {
-				alert := models.Alert{Type: "error", Code: "E_000", Body: err.Error()}
-				c.Data["json"] = alert
+			// trim unused fields
+			for _, v := range l {
+				m := make(map[string]interface{})
+				val := reflect.ValueOf(v)
+				for _, fname := range fields {
+					m[fname] = val.FieldByName(fname).Interface()
+				}
+				ml = append(ml, m)
 			}
-			alert := models.Alert{Type: "error", Code: "E_" + code, Body: err.Error()}
-			c.Data["json"] = alert
 		}
-	} else {
-		c.Data["json"] = models.Alert{Type: "error", Code: "E_400", Body: err.Error()}
+		return ml, nil
 	}
-	c.ServeJSON()
+	return nil, err
 }
 
-// Delete ...
-// @Title Delete
-// @Description delete the SubtipoDocumento
-// @Param	id		path 	string	true		"The id you want to delete"
-// @Success 200 {string} delete success!
-// @Failure 403 id is empty
-// @router /:id [delete]
-func (c *SubtipoDocumentoController) Delete() {
-	idStr := c.Ctx.Input.Param(":id")
-	id, _ := strconv.Atoi(idStr)
-	if err := models.DeleteSubtipoDocumento(id); err == nil {
-		c.Data["json"] = models.Alert{Type: "success", Code: "S_200", Body: "OK"}
-	} else {
-		c.Data["json"] = models.Alert{Type: "error", Code: "E_400", Body: err.Error()}
+// UpdateSubtipoDocumento updates SubtipoDocumento by Id and returns error if
+// the record to be updated doesn't exist
+func UpdateSubtipoDocumentoById(m *SubtipoDocumento) (err error) {
+	o := orm.NewOrm()
+	v := SubtipoDocumento{Id: m.Id}
+	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
+	// ascertain id exists in the database
+	if err = o.Read(&v); err == nil {
+		var num int64
+		if num, err = o.Update(m, "TipoDocumentoPadre", "TipoDocumentoHijo", "Activo", "FechaModificacion"); err == nil {
+			fmt.Println("Number of records updated in database:", num)
+		}
 	}
-	c.ServeJSON()
+	return
+}
+
+// DeleteSubtipoDocumento deletes SubtipoDocumento by Id and returns error if
+// the record to be deleted doesn't exist
+func DeleteSubtipoDocumento(id int) (err error) {
+	o := orm.NewOrm()
+	v := SubtipoDocumento{Id: id}
+	// ascertain id exists in the database
+	if err = o.Read(&v); err == nil {
+		var num int64
+		if num, err = o.Delete(&SubtipoDocumento{Id: id}); err == nil {
+			fmt.Println("Number of records deleted in database:", num)
+		}
+	}
+	return
 }
