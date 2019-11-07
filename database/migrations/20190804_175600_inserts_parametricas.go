@@ -31,7 +31,7 @@ func (m *InsertsParametricas_20190804_175600) Up() {
 		fmt.Println(err)
 	}
 
-	requests := strings.Split(string(file), ";\n")
+	requests := strings.Split(string(file), ";")
 
 	for _, request := range requests {
 		fmt.Println(request)
@@ -51,7 +51,7 @@ func (m *InsertsParametricas_20190804_175600) Down() {
 		fmt.Println(err)
 	}
 
-	requests := strings.Split(string(file), ";\n")
+	requests := strings.Split(string(file), ";")
 
 	for _, request := range requests {
 		fmt.Println(request)
