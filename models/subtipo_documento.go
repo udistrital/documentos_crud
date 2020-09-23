@@ -7,13 +7,16 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego/orm"
+	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 type SubtipoDocumento struct {
-	Id     int            `orm:"column(id);pk;auto"`
-	Padre  *TipoDocumento `orm:"column(padre);rel(fk)"`
-	Hijo   *TipoDocumento `orm:"column(hijo);rel(fk)"`
-	Activo bool           `orm:"column(activo)"`
+	Id                 int            `orm:"column(id);pk;auto"`
+	TipoDocumentoPadre *TipoDocumento `orm:"column(tipo_documento_padre);rel(fk)"`
+	TipoDocumentoHijo  *TipoDocumento `orm:"column(tipo_documento_hijo);rel(fk)"`
+	Activo             bool           `orm:"column(activo)"`
+	FechaCreacion      string         `orm:"column(fecha_creacion);null"`
+	FechaModificacion  string         `orm:"column(fecha_modificacion);null"`
 }
 
 func (t *SubtipoDocumento) TableName() string {
@@ -27,6 +30,8 @@ func init() {
 // AddSubtipoDocumento insert a new SubtipoDocumento into database and returns
 // last inserted Id on success.
 func AddSubtipoDocumento(m *SubtipoDocumento) (id int64, err error) {
+	m.FechaCreacion = time_bogota.TiempoBogotaFormato()
+	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	o := orm.NewOrm()
 	id, err = o.Insert(m)
 	return
@@ -126,10 +131,11 @@ func GetAllSubtipoDocumento(query map[string]string, fields []string, sortby []s
 func UpdateSubtipoDocumentoById(m *SubtipoDocumento) (err error) {
 	o := orm.NewOrm()
 	v := SubtipoDocumento{Id: m.Id}
+	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Update(m); err == nil {
+		if num, err = o.Update(m, "TipoDocumentoPadre", "TipoDocumentoHijo", "Activo", "FechaModificacion"); err == nil {
 			fmt.Println("Number of records updated in database:", num)
 		}
 	}
