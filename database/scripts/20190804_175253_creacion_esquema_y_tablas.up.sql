@@ -3,7 +3,7 @@
 CREATE SCHEMA documento;
 -- ddl-end --
 
---SET search_path TO pg_catalog,public,documento;
+SET search_path TO pg_catalog,public,documento;
 -- ddl-end --
 
 -- object: documento.documento | type: TABLE --
@@ -196,6 +196,6 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 
 
 -- Permisos de usuario
---GRANT USAGE ON SCHEMA documento TO desarrollooas;
---GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA documento TO desarrollooas;
---GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA documento TO desarrollooas;
+GRANT USAGE ON SCHEMA documento TO desarrollooas;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA documento TO desarrollooas;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA documento TO desarrollooas;
