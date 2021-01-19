@@ -76,7 +76,7 @@ Pruebas unitarias
 
 
 ## Modelo de Datos
-[Modelo de Datos documentos_crud](https://github.com/planesticud/documentos_crud/blob/develop/modelo_documentos_crud.png)
+[Modelo de Datos documentos_crud](/sql/modelo_documentos_crud.png)
 
 ## Licencia
 
