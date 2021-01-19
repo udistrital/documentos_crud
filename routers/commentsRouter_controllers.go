@@ -10,7 +10,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"],
         beego.ControllerComments{
             Method: "Post",
-            Router: `/`,
+            Router: "/",
             AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -19,7 +19,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"],
         beego.ControllerComments{
             Method: "GetAll",
-            Router: `/`,
+            Router: "/",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -28,7 +28,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"],
         beego.ControllerComments{
             Method: "GetOne",
-            Router: `/:id`,
+            Router: "/:id",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -37,7 +37,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"],
         beego.ControllerComments{
             Method: "Put",
-            Router: `/:id`,
+            Router: "/:id",
             AllowHTTPMethods: []string{"put"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -46,7 +46,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:DocumentoController"],
         beego.ControllerComments{
             Method: "Delete",
-            Router: `/:id`,
+            Router: "/:id",
             AllowHTTPMethods: []string{"delete"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -55,7 +55,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"],
         beego.ControllerComments{
             Method: "Post",
-            Router: `/`,
+            Router: "/",
             AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -64,7 +64,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"],
         beego.ControllerComments{
             Method: "GetAll",
-            Router: `/`,
+            Router: "/",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -73,7 +73,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"],
         beego.ControllerComments{
             Method: "GetOne",
-            Router: `/:id`,
+            Router: "/:id",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -82,7 +82,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"],
         beego.ControllerComments{
             Method: "Put",
-            Router: `/:id`,
+            Router: "/:id",
             AllowHTTPMethods: []string{"put"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -91,7 +91,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"],
         beego.ControllerComments{
             Method: "Delete",
-            Router: `/:id`,
+            Router: "/:id",
             AllowHTTPMethods: []string{"delete"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -100,7 +100,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"],
         beego.ControllerComments{
             Method: "Post",
-            Router: `/`,
+            Router: "/",
             AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -109,7 +109,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"],
         beego.ControllerComments{
             Method: "GetAll",
-            Router: `/`,
+            Router: "/",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -118,7 +118,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"],
         beego.ControllerComments{
             Method: "GetOne",
-            Router: `/:id`,
+            Router: "/:id",
             AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -127,7 +127,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"],
         beego.ControllerComments{
             Method: "Put",
-            Router: `/:id`,
+            Router: "/:id",
             AllowHTTPMethods: []string{"put"},
             MethodParams: param.Make(),
             Filters: nil,
@@ -136,7 +136,7 @@ func init() {
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:TipoDocumentoController"],
         beego.ControllerComments{
             Method: "Delete",
-            Router: `/:id`,
+            Router: "/:id",
             AllowHTTPMethods: []string{"delete"},
             MethodParams: param.Make(),
             Filters: nil,
