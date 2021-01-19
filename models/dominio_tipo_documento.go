@@ -10,33 +10,28 @@ import (
 	"github.com/udistrital/utils_oas/time_bogota"
 )
 
-type TipoDocumento struct {
-	Id                   int                   `orm:"column(id);pk;auto"`
-	Nombre               string                `orm:"column(nombre)"`
-	Descripcion          string                `orm:"column(descripcion);null"`
-	CodigoAbreviacion    string                `orm:"column(codigo_abreviacion);null"`
-	Activo               bool                  `orm:"column(activo)"`
-	NumeroOrden          float64               `orm:"column(numero_orden);null"`
-	Tamano               float64               `orm:"column(tamano);null"`
-	Extension            string                `orm:"column(extension);null"`
-	Workspace            string                `orm:"column(workspace)"`
-	TipoDocumentoNuxeo   string                `orm:"column(tipo_documento_nuxeo);null"`
-	FechaCreacion        string                `orm:"column(fecha_creacion);null"`
-	FechaModificacion    string                `orm:"column(fecha_modificacion);null"`
-	DominioTipoDocumento *DominioTipoDocumento `orm:"column(dominio_tipo_documento);rel(fk)"`
+type DominioTipoDocumento struct {
+	Id                int     `orm:"column(id);pk;auth"`
+	Nombre            string  `orm:"column(nombre)"`
+	Descripcion       string  `orm:"column(descripcion);null"`
+	CodigoAbreviacion string  `orm:"column(codigo_abreviacion);null"`
+	Activo            bool    `orm:"column(activo)"`
+	NumeroOrden       float64 `orm:"column(numero_orden);null"`
+	FechaCreacion     string  `orm:"column(fecha_creacion);null"`
+	FechaModificacion string  `orm:"column(fecha_modificacion);null"`
 }
 
-func (t *TipoDocumento) TableName() string {
-	return "tipo_documento"
+func (t *DominioTipoDocumento) TableName() string {
+	return "dominio_tipo_documento"
 }
 
 func init() {
-	orm.RegisterModel(new(TipoDocumento))
+	orm.RegisterModel(new(DominioTipoDocumento))
 }
 
-// AddTipoDocumento insert a new TipoDocumento into database and returns
+// AddDominioTipoDocumento insert a new DominioTipoDocumento into database and returns
 // last inserted Id on success.
-func AddTipoDocumento(m *TipoDocumento) (id int64, err error) {
+func AddDominioTipoDocumento(m *DominioTipoDocumento) (id int64, err error) {
 	m.FechaCreacion = time_bogota.TiempoBogotaFormato()
 	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	o := orm.NewOrm()
@@ -44,23 +39,23 @@ func AddTipoDocumento(m *TipoDocumento) (id int64, err error) {
 	return
 }
 
-// GetTipoDocumentoById retrieves TipoDocumento by Id. Returns error if
+// GetDominioTipoDocumentoById retrieves DominioTipoDocumento by Id. Returns error if
 // Id doesn't exist
-func GetTipoDocumentoById(id int) (v *TipoDocumento, err error) {
+func GetDominioTipoDocumentoById(id int) (v *DominioTipoDocumento, err error) {
 	o := orm.NewOrm()
-	v = &TipoDocumento{Id: id}
+	v = &DominioTipoDocumento{Id: id}
 	if err = o.Read(v); err == nil {
 		return v, nil
 	}
 	return nil, err
 }
 
-// GetAllTipoDocumento retrieves all TipoDocumento matches certain condition. Returns empty list if
+// GetAllDominioTipoDocumento retrieves all DominioTipoDocumento matches certain condition. Returns empty list if
 // no records exist
-func GetAllTipoDocumento(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllDominioTipoDocumento(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(TipoDocumento)).RelatedSel()
+	qs := o.QueryTable(new(DominioTipoDocumento))
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -110,7 +105,7 @@ func GetAllTipoDocumento(query map[string]string, fields []string, sortby []stri
 		}
 	}
 
-	var l []TipoDocumento
+	var l []DominioTipoDocumento
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
@@ -133,31 +128,31 @@ func GetAllTipoDocumento(query map[string]string, fields []string, sortby []stri
 	return nil, err
 }
 
-// UpdateTipoDocumento updates TipoDocumento by Id and returns error if
+// UpdateDominioTipoDocumento updates DominioTipoDocumento by Id and returns error if
 // the record to be updated doesn't exist
-func UpdateTipoDocumentoById(m *TipoDocumento) (err error) {
+func UpdateDominioTipoDocumentoById(m *DominioTipoDocumento) (err error) {
 	o := orm.NewOrm()
-	v := TipoDocumento{Id: m.Id}
+	v := DominioTipoDocumento{Id: m.Id}
 	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Update(m, "Nombre", "Descripcion", "CodigoAbreviacion", "Activo", "NumeroOrden", "Tamano", "Extension", "Workspace", "TipoDocumentoNuxeo", "FechaModificacion"); err == nil {
+		if num, err = o.Update(m); err == nil {
 			fmt.Println("Number of records updated in database:", num)
 		}
 	}
 	return
 }
 
-// DeleteTipoDocumento deletes TipoDocumento by Id and returns error if
+// DeleteDominioTipoDocumento deletes DominioTipoDocumento by Id and returns error if
 // the record to be deleted doesn't exist
-func DeleteTipoDocumento(id int) (err error) {
+func DeleteDominioTipoDocumento(id int) (err error) {
 	o := orm.NewOrm()
-	v := TipoDocumento{Id: id}
+	v := DominioTipoDocumento{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&TipoDocumento{Id: id}); err == nil {
+		if num, err = o.Delete(&DominioTipoDocumento{Id: id}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}
