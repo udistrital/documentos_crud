@@ -3,7 +3,7 @@
 CREATE SCHEMA documento;
 -- ddl-end --
 
-SET search_path TO pg_catalog,public,documento;
+--SET search_path TO pg_catalog,public,documento;
 -- ddl-end --
 
 -- object: documento.documento | type: TABLE --
@@ -56,11 +56,11 @@ CREATE TABLE documento.tipo_documento (
 	numero_orden numeric(5,2),
 	tamano numeric(10,0),
 	extension character varying(40),
-	workspace character varying(250) NOT NULL,
+	workspace character varying(250) NOT NULL DEFAULT '/desarrollo/pruebas/',
 	tipo_documento_nuxeo character varying(25),
 	fecha_creacion timestamp NOT NULL DEFAULT now(),
 	fecha_modificacion timestamp NOT NULL DEFAULT now(),
-	dominio_tipo_documento integer NOT NULL,
+	dominio_tipo_documento integer NOT NULL DEFAULT 4,
 	CONSTRAINT pk_tipo_documento PRIMARY KEY (id)
 
 );
@@ -196,6 +196,6 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 
 
 -- Permisos de usuario
-GRANT USAGE ON SCHEMA documento TO desarrollooas;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA documento TO desarrollooas;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA documento TO desarrollooas;
+--GRANT USAGE ON SCHEMA documento TO desarrollooas;
+--GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA documento TO desarrollooas;
+--GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA documento TO desarrollooas;
