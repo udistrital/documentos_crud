@@ -11,18 +11,19 @@ import (
 )
 
 type TipoDocumento struct {
-	Id                 int     `orm:"column(id);pk;auto"`
-	Nombre             string  `orm:"column(nombre)"`
-	Descripcion        string  `orm:"column(descripcion);null"`
-	CodigoAbreviacion  string  `orm:"column(codigo_abreviacion);null"`
-	Activo             bool    `orm:"column(activo)"`
-	NumeroOrden        float64 `orm:"column(numero_orden);null"`
-	Tamano             float64 `orm:"column(tamano);null"`
-	Extension          string  `orm:"column(extension);null"`
-	Workspace          string  `orm:"column(workspace)"`
-	TipoDocumentoNuxeo string  `orm:"column(tipo_documento_nuxeo);null"`
-	FechaCreacion      string  `orm:"column(fecha_creacion);null"`
-	FechaModificacion  string  `orm:"column(fecha_modificacion);null"`
+	Id                   int                   `orm:"column(id);pk;auto"`
+	Nombre               string                `orm:"column(nombre)"`
+	Descripcion          string                `orm:"column(descripcion);null"`
+	CodigoAbreviacion    string                `orm:"column(codigo_abreviacion);null"`
+	Activo               bool                  `orm:"column(activo)"`
+	NumeroOrden          float64               `orm:"column(numero_orden);null"`
+	Tamano               float64               `orm:"column(tamano);null"`
+	Extension            string                `orm:"column(extension);null"`
+	Workspace            string                `orm:"column(workspace)"`
+	TipoDocumentoNuxeo   string                `orm:"column(tipo_documento_nuxeo);null"`
+	FechaCreacion        string                `orm:"column(fecha_creacion);null"`
+	FechaModificacion    string                `orm:"column(fecha_modificacion);null"`
+	DominioTipoDocumento *DominioTipoDocumento `orm:"column(dominio_tipo_documento);rel(fk)"`
 }
 
 func (t *TipoDocumento) TableName() string {
@@ -59,7 +60,7 @@ func GetTipoDocumentoById(id int) (v *TipoDocumento, err error) {
 func GetAllTipoDocumento(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(TipoDocumento))
+	qs := o.QueryTable(new(TipoDocumento)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

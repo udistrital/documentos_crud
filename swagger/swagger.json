@@ -188,6 +188,179 @@
                 }
             }
         },
+        "/dominio_tipo_documento/": {
+            "get": {
+                "tags": [
+                    "dominio_tipo_documento"
+                ],
+                "description": "get DominioTipoDocumento",
+                "operationId": "DominioTipoDocumentoController.Get All",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "query",
+                        "description": "Filter. e.g. col1:v1,col2:v2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "fields",
+                        "description": "Fields returned. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "sortby",
+                        "description": "Sorted-by fields. e.g. col1,col2 ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "order",
+                        "description": "Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "limit",
+                        "description": "Limit the size of result set. Must be an integer",
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "offset",
+                        "description": "Start position of result set. Must be an integer",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.DominioTipoDocumento"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "dominio_tipo_documento"
+                ],
+                "description": "create DominioTipoDocumento",
+                "operationId": "DominioTipoDocumentoController.Post",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for DominioTipoDocumento content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DominioTipoDocumento"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "{int} models.DominioTipoDocumento"
+                    },
+                    "400": {
+                        "description": "the request contains incorrect syntax"
+                    }
+                }
+            }
+        },
+        "/dominio_tipo_documento/{id}": {
+            "get": {
+                "tags": [
+                    "dominio_tipo_documento"
+                ],
+                "description": "get DominioTipoDocumento by id",
+                "operationId": "DominioTipoDocumentoController.Get One",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The key for staticblock",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.DominioTipoDocumento"
+                        }
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "dominio_tipo_documento"
+                ],
+                "description": "update the DominioTipoDocumento",
+                "operationId": "DominioTipoDocumentoController.Put",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for DominioTipoDocumento content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DominioTipoDocumento"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.DominioTipoDocumento"
+                        }
+                    },
+                    "400": {
+                        "description": "the request contains incorrect syntax"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "dominio_tipo_documento"
+                ],
+                "description": "delete the DominioTipoDocumento",
+                "operationId": "DominioTipoDocumentoController.Delete",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to delete",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{string} delete success!"
+                    },
+                    "404": {
+                        "description": "not found resource"
+                    }
+                }
+            }
+        },
         "/subtipo_documento/": {
             "get": {
                 "tags": [
@@ -570,6 +743,38 @@
                 }
             }
         },
+        "models.DominioTipoDocumento": {
+            "title": "DominioTipoDocumento",
+            "type": "object",
+            "properties": {
+                "Activo": {
+                    "type": "boolean"
+                },
+                "CodigoAbreviacion": {
+                    "type": "string"
+                },
+                "Descripcion": {
+                    "type": "string"
+                },
+                "FechaCreacion": {
+                    "type": "string"
+                },
+                "FechaModificacion": {
+                    "type": "string"
+                },
+                "Id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Nombre": {
+                    "type": "string"
+                },
+                "NumeroOrden": {
+                    "type": "number",
+                    "format": "double"
+                }
+            }
+        },
         "models.SubtipoDocumento": {
             "title": "SubtipoDocumento",
             "type": "object",
@@ -607,6 +812,9 @@
                 },
                 "Descripcion": {
                     "type": "string"
+                },
+                "DominioTipoDocumento": {
+                    "$ref": "#/definitions/models.DominioTipoDocumento"
                 },
                 "Extension": {
                     "type": "string"
@@ -653,6 +861,10 @@
         {
             "name": "subtipo_documento",
             "description": "SubtipoDocumentoController operations for SubtipoDocumento\n"
+        },
+        {
+            "name": "dominio_tipo_documento",
+            "description": "DominioTipoDocumentoController operations for DominioTipoDocumento\n"
         }
     ]
 }

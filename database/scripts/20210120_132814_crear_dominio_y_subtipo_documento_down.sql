@@ -1,0 +1,1 @@
+drop TABLE if EXISTS documento.dominio_tipo_documento CASCADE;

@@ -1,0 +1,1 @@
+delete from documento.dominio_tipo_documento;

@@ -11,7 +11,7 @@ API de gestión de documentos
 
 ### Variables de Entorno
 ```shell
-DOCUMENTOS_HTTP_PORT=[Puerto asignado para la ejecución del API]
+DOCUMENTOS_CRUD__HTTP_PORT=[Puerto asignado para la ejecución del API]
 DOCUMENTOS_CRUD__PGUSER=[Usuario de la base de datos]
 DOCUMENTOS_CRUD__PGPASS=[Clave del usuario para la conexión a la base de datos]
 DOCUMENTOS_CRUD__PGURLS=[Host de conexión]
@@ -76,7 +76,7 @@ Pruebas unitarias
 
 
 ## Modelo de Datos
-[Modelo de Datos documentos_crud](https://github.com/planesticud/documentos_crud/blob/develop/modelo_documentos_crud.png)
+[Modelo de Datos documentos_crud](/sql/modelo_documentos_crud.png)
 
 ## Licencia
 
