@@ -8,6 +8,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/udistrital/documentos_crud/models"
+	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 // TipoDocumentoController operations for TipoDocumento
@@ -34,6 +35,8 @@ func (c *TipoDocumentoController) URLMapping() {
 func (c *TipoDocumentoController) Post() {
 	var v models.TipoDocumento
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		v.FechaCreacion = time_bogota.TiempoBogotaFormato()
+		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
 		if _, err := models.AddTipoDocumento(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = v
@@ -156,6 +159,8 @@ func (c *TipoDocumentoController) Put() {
 	id, _ := strconv.Atoi(idStr)
 	v := models.TipoDocumento{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
+
 		if err := models.UpdateTipoDocumentoById(&v); err == nil {
 			c.Ctx.Output.SetStatus(200)
 			c.Data["json"] = v

@@ -8,6 +8,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/udistrital/documentos_crud/models"
+	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 // DocumentoController operations for Documento
@@ -34,6 +35,8 @@ func (c *DocumentoController) URLMapping() {
 func (c *DocumentoController) Post() {
 	var v models.Documento
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		v.FechaCreacion = time_bogota.TiempoBogotaFormato()
+		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
 		if _, err := models.AddDocumento(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = v
@@ -156,6 +159,9 @@ func (c *DocumentoController) Put() {
 	id, _ := strconv.Atoi(idStr)
 	v := models.Documento{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		//v.FechaCreacion = time_bogota.TiempoCorreccionFormato(v.FechaCreacion)
+		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
+
 		if err := models.UpdateDocumentoById(&v); err == nil {
 			c.Ctx.Output.SetStatus(200)
 			c.Data["json"] = v
