@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 type TipoDocumento struct {
@@ -37,8 +36,6 @@ func init() {
 // AddTipoDocumento insert a new TipoDocumento into database and returns
 // last inserted Id on success.
 func AddTipoDocumento(m *TipoDocumento) (id int64, err error) {
-	m.FechaCreacion = time_bogota.TiempoBogotaFormato()
-	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	o := orm.NewOrm()
 	id, err = o.Insert(m)
 	return
@@ -138,11 +135,10 @@ func GetAllTipoDocumento(query map[string]string, fields []string, sortby []stri
 func UpdateTipoDocumentoById(m *TipoDocumento) (err error) {
 	o := orm.NewOrm()
 	v := TipoDocumento{Id: m.Id}
-	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Update(m, "Nombre", "Descripcion", "CodigoAbreviacion", "Activo", "NumeroOrden", "Tamano", "Extension", "Workspace", "TipoDocumentoNuxeo", "FechaModificacion"); err == nil {
+		if num, err = o.Update(m, "Nombre", "Descripcion", "CodigoAbreviacion", "Activo", "NumeroOrden", "Tamano", "Extension", "Workspace", "TipoDocumentoNuxeo", "FechaModificacion", "DominioTipoDocumento"); err == nil {
 			fmt.Println("Number of records updated in database:", num)
 		}
 	}
