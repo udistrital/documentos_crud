@@ -8,6 +8,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/udistrital/documentos_crud/models"
+	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 // SubtipoDocumentoController operations for SubtipoDocumento
@@ -34,6 +35,8 @@ func (c *SubtipoDocumentoController) URLMapping() {
 func (c *SubtipoDocumentoController) Post() {
 	var v models.SubtipoDocumento
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		v.FechaCreacion = time_bogota.TiempoBogotaFormato()
+		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
 		if _, err := models.AddSubtipoDocumento(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = v
@@ -156,6 +159,8 @@ func (c *SubtipoDocumentoController) Put() {
 	id, _ := strconv.Atoi(idStr)
 	v := models.SubtipoDocumento{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
+
 		if err := models.UpdateSubtipoDocumentoById(&v); err == nil {
 			c.Ctx.Output.SetStatus(200)
 			c.Data["json"] = v

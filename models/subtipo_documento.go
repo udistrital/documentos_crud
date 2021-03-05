@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 type SubtipoDocumento struct {
@@ -30,8 +29,6 @@ func init() {
 // AddSubtipoDocumento insert a new SubtipoDocumento into database and returns
 // last inserted Id on success.
 func AddSubtipoDocumento(m *SubtipoDocumento) (id int64, err error) {
-	m.FechaCreacion = time_bogota.TiempoBogotaFormato()
-	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	o := orm.NewOrm()
 	id, err = o.Insert(m)
 	return
@@ -131,7 +128,6 @@ func GetAllSubtipoDocumento(query map[string]string, fields []string, sortby []s
 func UpdateSubtipoDocumentoById(m *SubtipoDocumento) (err error) {
 	o := orm.NewOrm()
 	v := SubtipoDocumento{Id: m.Id}
-	m.FechaModificacion = time_bogota.TiempoBogotaFormato()
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
