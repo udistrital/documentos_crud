@@ -1,0 +1,1 @@
+update documento.tipo_documento set tipo_documento_nuxeo = NULL where tipo_documento_nuxeo = 'File';
