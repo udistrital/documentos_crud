@@ -18,6 +18,7 @@ DOCUMENTOS_CRUD__PGURLS=[Host de conexión]
 DOCUMENTOS_CRUD__PGDB=[Nombre de la base de datos]
 DOCUMENTOS_CRUD__SCHEMA=[Esquema a utilizar en la base de datos]
 ```
+
 **NOTA:** Las variables se pueden ver en el fichero conf/app.conf y están identificadas con DOCUMENTOS_CRUD__...
 
 ### Ejecución del Proyecto
