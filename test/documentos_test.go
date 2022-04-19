@@ -17,9 +17,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/DATA-DOG/godog"
-	"github.com/DATA-DOG/godog/colors"
 	"github.com/astaxie/beego"
+	"github.com/cucumber/godog"
+	"github.com/cucumber/godog/colors"
 	"github.com/xeipuuv/gojsonschema"
 )
 

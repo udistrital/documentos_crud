@@ -1,27 +1,32 @@
 # documentos_crud
+
 API de gestión de documentos
 
 ## Especificaciones Técnicas
 
 ### Tecnologías Implementadas y Versiones
-* [Golang](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/golang.md)
-* [BeeGo](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/beego.md)
-* [Docker](https://docs.docker.com/engine/install/ubuntu/)
-* [Docker Compose](https://docs.docker.com/compose/)
+
+- [Golang](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/golang.md)
+- [BeeGo](https://github.com/udistrital/introduccion_oas/blob/master/instalacion_de_herramientas/beego.md)
+- [Docker](https://docs.docker.com/engine/install/ubuntu/)
+- [Docker Compose](https://docs.docker.com/compose/)
 
 ### Variables de Entorno
+
 ```shell
 DOCUMENTOS_CRUD__HTTP_PORT=[Puerto asignado para la ejecución del API]
 DOCUMENTOS_CRUD__PGUSER=[Usuario de la base de datos]
 DOCUMENTOS_CRUD__PGPASS=[Clave del usuario para la conexión a la base de datos]
 DOCUMENTOS_CRUD__PGURLS=[Host de conexión]
+DOCUMENTOS_CRUD__PGPORT=[Puerto de la base de datos]
 DOCUMENTOS_CRUD__PGDB=[Nombre de la base de datos]
 DOCUMENTOS_CRUD__SCHEMA=[Esquema a utilizar en la base de datos]
 ```
 
-**NOTA:** Las variables se pueden ver en el fichero conf/app.conf y están identificadas con DOCUMENTOS_CRUD__...
+**NOTA:** Las variables se pueden ver en el fichero conf/app.conf y están identificadas con `DOCUMENTOS_CRUD__...`
 
 ### Ejecución del Proyecto
+
 ```shell
 #1. Obtener el repositorio con Go
 go get github.com/udistrital/novedades_crud
@@ -37,12 +42,14 @@ DOCUMENTOS_HTTP_PORT=8094 DOCUMENTOS_CRUD__PGUSER=user DOCUMENTOS_CRUD__PGPASS=p
 ```
 
 ### Ejecución Dockerfile
+
 ```shell
 # docker build --tag=documentos_crud . --no-cache
 # docker run -p 80:80 documentos_crud
 ```
 
 ### Ejecución docker-compose
+
 ```shell
 #1. Clonar el repositorio
 git clone -b develop https://github.com/udistrital/documentos_crud
@@ -66,18 +73,20 @@ docker ps
 ### Ejecución Pruebas
 
 Pruebas unitarias
+
 ```shell
 # En Proceso
 ```
+
 ## Estado CI
 
-| Develop | Relese 0.0.1 | Master |
+| Develop | Release 0.0.1 | Master |
 | -- | -- | -- |
-| [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/documentos_crud/status.svg?ref=refs/heads/develop)](https://hubci.portaloas.udistrital.edu.co/udistrital/documentos_crud) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/documentos_crud/status.svg?ref=refs/heads/release/0.0.1)](https://hubci.portaloas.udistrital.edu.co/udistrital/documentos_crud) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/documentos_crud/status.svg)](https://hubci.portaloas.udistrital.edu.co/udistrital/documentos_crud) |
-
+| [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/documentos_crud/status.svg?ref=refs/heads/develop)](https://hubci.portaloas.udistrital.edu.co/udistrital/documentos_crud) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/documentos_crud/status.svg?ref=refs/heads/release/0.0.1)](https://hubci.portaloas.udistrital.edu.co/udistrital/documentos_crud) | [![Build Status](https://hubci.portaloas.udistrital.edu.co/api/badges/udistrital/documentos_crud/status.svg?ref=refs/heads/master)](https://hubci.portaloas.udistrital.edu.co/udistrital/documentos_crud) |
 
 ## Modelo de Datos
-[Modelo de Datos documentos_crud](/sql/modelo_documentos_crud.png)
+
+[Modelo PGmodeler](database/documento.dbm) - [Modelo SVG](database/documento.svg)
 
 ## Licencia
 
