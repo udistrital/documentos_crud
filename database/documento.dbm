@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.1-beta" last-position="0,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<role name="test"
+      superuser="true"
+      createdb="true"
+      replication="true"
+      createrole="true"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********"
+      sql-disabled="true">
+</role>
+
+<role name="desarrollooas"
+      superuser="true"
+      createdb="true"
+      replication="true"
+      createrole="true"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<database name="test" encoding="UTF8" lc-collate="en_US.utf8" lc-ctype="en_US.utf8">
+	<role name="test"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="documento" rect-visible="true" fill-color="#e19401">
+</schema>
+
+<sequence name="documento_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="documento"/>
+	<role name="test"/>
+</sequence>
+
+<table name="documento">
+	<schema name="documento"/>
+	<comment><![CDATA[Tabla que almacena los documentos registrados en el sistema]]></comment>
+	<position x="1240" y="480"/>
+	<column name="id" not-null="true" sequence="documento.documento_id_seq">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Identificador del documento]]></comment>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="character varying" length="150"/>
+		<comment><![CDATA[Título del documento]]></comment>
+	</column>
+	<column name="descripcion">
+		<type name="character varying" length="250"/>
+		<comment><![CDATA[Descripción del documento]]></comment>
+	</column>
+	<column name="enlace" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Identificación del archivo en Nuxeo]]></comment>
+	</column>
+	<column name="tipo_documento" not-null="true">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="metadatos">
+		<type name="json" length="0"/>
+		<comment><![CDATA[Contiene los metadatos del documento]]></comment>
+	</column>
+	<column name="activo" not-null="true">
+		<type name="boolean" length="0"/>
+		<comment><![CDATA[Campo para indicar el estado del registro]]></comment>
+	</column>
+	<column name="fecha_creacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de creación del registro]]></comment>
+	</column>
+	<column name="fecha_modificacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de la última modificación del registro]]></comment>
+	</column>
+	<constraint name="pk_documento" type="pk-constr" table="documento.documento">
+		<columns names="id" ref-type="src-columns"/>
+		<comment><![CDATA[Llave primaria de la tabla documento]]></comment>
+	</constraint>
+</table>
+
+<sequence name="tipo_documento_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="documento"/>
+	<role name="test"/>
+</sequence>
+
+<table name="tipo_documento">
+	<schema name="documento"/>
+	<comment><![CDATA[Tabla paramétrica para los tipos de documento]]></comment>
+	<position x="660" y="360"/>
+	<column name="id" not-null="true" sequence="documento.tipo_documento_id_seq">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Identificador de la tabla tipo_documento]]></comment>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Campo en el que se indica el nombre del tipo de documento]]></comment>
+	</column>
+	<column name="descripcion">
+		<type name="character varying" length="250"/>
+		<comment><![CDATA[Descripción opcional del parámetro]]></comment>
+	</column>
+	<column name="codigo_abreviacion">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[Código de abreviación, sigla, acrónimo u otra representación corta del registro si se requiere]]></comment>
+	</column>
+	<column name="activo" not-null="true">
+		<type name="boolean" length="0"/>
+		<comment><![CDATA[Campo que inidica si el parámetro está activo]]></comment>
+	</column>
+	<column name="numero_orden">
+		<type name="numeric" length="5" precision="2"/>
+		<comment><![CDATA[En dado caso que se necesite establecer un orden a los registros que no se encuentre definido por aplicación ni por BD. Allí se almacena permitiendo realizar subitems mediante la precisión.]]></comment>
+	</column>
+	<column name="tamano">
+		<type name="numeric" length="10" precision="0"/>
+		<comment><![CDATA[Tamaño máximo permitido para el tipo de documento]]></comment>
+	</column>
+	<column name="extension">
+		<type name="character varying" length="40"/>
+		<comment><![CDATA[Extensiones permitidas para el tipo de documento]]></comment>
+	</column>
+	<column name="workspace" not-null="true" default-value="'/desarrollo/pruebas/'">
+		<type name="character varying" length="250"/>
+		<comment><![CDATA[Espacio de trabajo dentro del gestor documental Nuxeo]]></comment>
+	</column>
+	<column name="tipo_documento_nuxeo">
+		<type name="character varying" length="25"/>
+		<comment><![CDATA[Tipo de documento en Nuxeo, ej: Picture, Folder, Workspace]]></comment>
+	</column>
+	<column name="fecha_creacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="fecha_modificacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+	</column>
+	<column name="dominio_tipo_documento" default-value="1">
+		<type name="integer" length="0"/>
+	</column>
+	<constraint name="pk_tipo_documento" type="pk-constr" table="documento.tipo_documento">
+		<columns names="id" ref-type="src-columns"/>
+		<comment><![CDATA[Llave primaria de la tabla tipo_documento]]></comment>
+	</constraint>
+</table>
+
+<sequence name="dominio_tipo_documento_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="documento"/>
+	<role name="test"/>
+</sequence>
+
+<table name="dominio_tipo_documento">
+	<schema name="documento"/>
+	<comment><![CDATA[Tabla que almacena los dominios que abarcan diferentes tipos de documento]]></comment>
+	<position x="100" y="380"/>
+	<column name="id" not-null="true" sequence="documento.dominio_tipo_documento_id_seq">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Identificador del dominio]]></comment>
+	</column>
+	<column name="nombre" not-null="true">
+		<type name="character varying" length="150"/>
+		<comment><![CDATA[Título del dominio]]></comment>
+	</column>
+	<column name="descripcion">
+		<type name="character varying" length="250"/>
+		<comment><![CDATA[Descripción del dominio]]></comment>
+	</column>
+	<column name="codigo_abreviacion">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[Código de abreviación, sigla, acrónimo u otra representación corta del registro si se requiere]]></comment>
+	</column>
+	<column name="activo" not-null="true">
+		<type name="boolean" length="0"/>
+		<comment><![CDATA[Campo para indicar el estado del registro]]></comment>
+	</column>
+	<column name="numero_orden">
+		<type name="numeric" length="5" precision="2"/>
+		<comment><![CDATA[En dado caso que se necesite establecer un orden a los registros que no se encuentre definido por aplicación ni por BD. Allí se almacena permitiendo realizar subitems mediante la precisión.]]></comment>
+	</column>
+	<column name="fecha_creacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de creación del registro]]></comment>
+	</column>
+	<column name="fecha_modificacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de la última modificación del registro]]></comment>
+	</column>
+	<constraint name="pk_dominio_tipo_documento" type="pk-constr" table="documento.dominio_tipo_documento">
+		<columns names="id" ref-type="src-columns"/>
+		<comment><![CDATA[Llave primaria de la tabla dominio_tipo_documento]]></comment>
+	</constraint>
+</table>
+
+<sequence name="subtipo_documento_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="documento"/>
+	<role name="test"/>
+</sequence>
+
+<table name="subtipo_documento">
+	<schema name="documento"/>
+	<comment><![CDATA[Tabla paramétrica para identificar las relaciones de jerarquia entre los tipos de documento]]></comment>
+	<position x="1260" y="180"/>
+	<column name="id" not-null="true" sequence="documento.subtipo_documento_id_seq">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Identificador de la tabla subtipo_documento]]></comment>
+	</column>
+	<column name="tipo_documento_padre" not-null="true">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Referencia foránea a la tabla tipo_documento que vincula el tipo de documento padre]]></comment>
+	</column>
+	<column name="tipo_documento_hijo" not-null="true">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Referencia foránea a la tabla tipo_documento que vincula el tipo de documento hijo]]></comment>
+	</column>
+	<column name="activo" not-null="true">
+		<type name="boolean" length="0"/>
+		<comment><![CDATA[Campo que indica si el parámetro está activo]]></comment>
+	</column>
+	<column name="fecha_creacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de creación del registro]]></comment>
+	</column>
+	<column name="fecha_modificacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de la última modificación del registro]]></comment>
+	</column>
+	<constraint name="pk_subtipo_documento" type="pk-constr" table="documento.subtipo_documento">
+		<columns names="id" ref-type="src-columns"/>
+		<comment><![CDATA[Llave primaria de la tabla subtipo_documento]]></comment>
+	</constraint>
+</table>
+
+<constraint name="fk_documento_tipo_documento" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="documento.tipo_documento" table="documento.documento">
+	<columns names="tipo_documento" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tipo_documento_dominio_tipo_documento" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="documento.dominio_tipo_documento" table="documento.tipo_documento">
+	<columns names="dominio_tipo_documento" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_subtipo_documento_tipo_documento_padre" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="documento.tipo_documento" table="documento.subtipo_documento">
+	<columns names="tipo_documento_padre" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_subtipo_documento_tipo_documento_hijo" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="documento.tipo_documento" table="documento.subtipo_documento">
+	<columns names="tipo_documento_hijo" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_documento_tipo_documento" type="relfk"
+	 custom-color="#8d42dd"
+	 src-table="documento.documento"
+	 dst-table="documento.tipo_documento"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tipo_documento_dominio_tipo_documento" type="relfk"
+	 custom-color="#ce04a5"
+	 src-table="documento.tipo_documento"
+	 dst-table="documento.dominio_tipo_documento"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_subtipo_documento_tipo_documento" type="relfk"
+	 custom-color="#a80d01"
+	 src-table="documento.subtipo_documento"
+	 dst-table="documento.tipo_documento"
+	 src-required="false" dst-required="false"/>
+
+<permission>
+	<object name="documento" type="schema"/>
+	<roles names="test"/>
+	<privileges create="true" usage="true"/>
+</permission>
+<permission>
+	<object name="documento" type="schema"/>
+	<roles names="desarrollooas"/>
+	<privileges usage="true"/>
+</permission>
+<permission>
+	<object name="documento.documento" type="table"/>
+	<roles names="test"/>
+	<privileges select="true" delete="true" insert="true" update="true" truncate="true" references="true" trigger="true"/>
+</permission>
+<permission>
+	<object name="documento.documento" type="table"/>
+	<roles names="desarrollooas"/>
+	<privileges select="true" delete="true" insert="true" update="true"/>
+</permission>
+<permission>
+	<object name="documento.tipo_documento" type="table"/>
+	<roles names="test"/>
+	<privileges select="true" delete="true" insert="true" update="true" truncate="true" references="true" trigger="true"/>
+</permission>
+<permission>
+	<object name="documento.tipo_documento" type="table"/>
+	<roles names="desarrollooas"/>
+	<privileges select="true" delete="true" insert="true" update="true"/>
+</permission>
+<permission>
+	<object name="documento.dominio_tipo_documento" type="table"/>
+	<roles names="test"/>
+	<privileges select="true" delete="true" insert="true" update="true" truncate="true" references="true" trigger="true"/>
+</permission>
+<permission>
+	<object name="documento.dominio_tipo_documento" type="table"/>
+	<roles names="desarrollooas"/>
+	<privileges select="true" delete="true" insert="true" update="true"/>
+</permission>
+<permission>
+	<object name="documento.subtipo_documento" type="table"/>
+	<roles names="test"/>
+	<privileges select="true" delete="true" insert="true" update="true" truncate="true" references="true" trigger="true"/>
+</permission>
+<permission>
+	<object name="documento.subtipo_documento" type="table"/>
+	<roles names="desarrollooas"/>
+	<privileges select="true" delete="true" insert="true" update="true"/>
+</permission>
+</dbmodel>

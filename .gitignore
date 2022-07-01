@@ -1,19 +1,22 @@
+# Binarios y Temporales
 documentos_crud
-lastupdate.tmp
-.scannerwork/
-custom.env
-documentos_api
+*.tmp
+*.exe
+*.log
+*.zip
+*~
 main
+
+# Variables de entorno
+*.env
+!.env
+!*template.env
+
+# IDEs y otros
 .vscode/
 .scannerwork/
-swagger/*.png
-swagger/*.html
-swagger/*.js
-swagger/*.map
-swagger/*.css
-swagger/*.yml
-swagger/css/
-swagger/fonts/
-swagger/images/
-swagger/lang/
-swagger/lib/
+
+# Swagger
+swagger/**
+!swagger/swagger.json
+!swagger/swagger.yml
