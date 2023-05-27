@@ -38,6 +38,11 @@ func init() {
 				&controllers.DominioTipoDocumentoController{},
 			),
 		),
+		beego.NSNamespace("/firma_electronica",
+			beego.NSInclude(
+				&controllers.FirmaElectronicaController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }
