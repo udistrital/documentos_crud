@@ -2,7 +2,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 CREATE TABLE IF NOT EXISTS documento.firma_electronica (
 	id uuid DEFAULT uuid_generate_v4 (),
-	codigo_autenticidad TEXT NOT NULL,
+	codigo_autenticidad TEXT,
 	llaves JSON,
 	firmantes JSON,
 	firma_encriptada TEXT,
