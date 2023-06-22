@@ -19,7 +19,6 @@ func (c *FirmaElectronicaController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
-	c.Mapping("Put", c.Put)
 	c.Mapping("Delete", c.Delete)
 }
 
@@ -137,37 +136,6 @@ func (c *FirmaElectronicaController) GetAll() {
 			l = append(l, map[string]interface{}{})
 		}
 		c.Data["json"] = l
-	}
-	c.ServeJSON()
-}
-
-// Put ...
-// @Title Put
-// @Description update the FirmaElectronica
-// @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.FirmaElectronica	true		"body for FirmaElectronica content"
-// @Success 200 {object} models.FirmaElectronica
-// @Failure 400 the request contains incorrect syntax
-// @router /:id [put]
-func (c *FirmaElectronicaController) Put() {
-	id := c.Ctx.Input.Param(":id")
-	v := models.FirmaElectronica{Id: id}
-	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-
-		if err := models.UpdateFirmaElectronicaById(&v); err == nil {
-			c.Ctx.Output.SetStatus(200)
-			c.Data["json"] = v
-		} else {
-			logs.Error(err)
-			//c.Data["development"] = map[string]interface{}{"Code": "400", "Body": err.Error(), "Type": "error"}
-			c.Data["System"] = err
-			c.Abort("400")
-		}
-	} else {
-		logs.Error(err)
-		//c.Data["development"] = map[string]interface{}{"Code": "400", "Body": err.Error(), "Type": "error"}
-		c.Data["System"] = err
-		c.Abort("400")
 	}
 	c.ServeJSON()
 }
