@@ -1,1 +1,1 @@
-CREATE TABLE IF EXISTS documento.firma_electronica;
+DROP TABLE IF EXISTS documento.firma_electronica;
