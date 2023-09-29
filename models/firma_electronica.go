@@ -10,14 +10,15 @@ import (
 )
 
 type FirmaElectronica struct {
-	Id                 string `orm:"column(id);pk"`
-	CodigoAutenticidad string `orm:"column(codigo_autenticidad)"`
-	Firmantes          string `orm:"column(firmantes);type(json)"`
-	FirmaEncriptada    string `orm:"column(firma_encriptada)"`
-	Llaves             string `orm:"column(llaves);type(json)"`
-	Activo             bool   `orm:"column(activo)"`
-	FechaCreacion      string `orm:"column(fecha_creacion)"`
-	FechaModificacion  string `orm:"column(fecha_modificacion)"`
+	Id                 string     `orm:"column(id);pk"`
+	CodigoAutenticidad string     `orm:"column(codigo_autenticidad)"`
+	Firmantes          string     `orm:"column(firmantes);type(json)"`
+	FirmaEncriptada    string     `orm:"column(firma_encriptada)"`
+	Llaves             string     `orm:"column(llaves);type(json)"`
+	DocumentoId        *Documento `orm:"column(documento_id);rel(fk)"`
+	Activo             bool       `orm:"column(activo)"`
+	FechaCreacion      string     `orm:"column(fecha_creacion)"`
+	FechaModificacion  string     `orm:"column(fecha_modificacion)"`
 }
 
 func (t *FirmaElectronica) TableName() string {
@@ -39,26 +40,26 @@ func AddFirmaElectronica(m *FirmaElectronica) (id string, err error) {
 		llaves,
 		firma_encriptada,
 		firmantes,
+		documento_id,
 		activo,
 		fecha_creacion,
 		fecha_modificacion)
-	VALUES(?, ?, ?, ?, ?, now(), now())
+	VALUES(?, ?, ?, ?, ?, ?, now(), now())
 	RETURNING id;`
 
-	err = o.Raw(script, m.CodigoAutenticidad, m.Llaves, m.FirmaEncriptada, m.Firmantes, m.Activo).QueryRow(&m.Id)
+	err = o.Raw(script, m.CodigoAutenticidad, m.Llaves, m.FirmaEncriptada, m.Firmantes, m.DocumentoId, m.Activo).QueryRow(&m.Id)
 
 	return
 }
 
 // GetFirmaElectronicaById retrieves FirmaElectronica by Id. Returns error if
 // Id doesn't exist
-func GetFirmaElectronicaById(id string) (v *FirmaElectronica, err error) {
+func GetFirmaElectronicaById(id string) (v FirmaElectronica, err error) {
+
 	o := orm.NewOrm()
-	v = &FirmaElectronica{Id: id}
-	if err = o.Read(v); err == nil {
-		return v, nil
-	}
-	return nil, err
+	err = o.QueryTable(new(FirmaElectronica)).RelatedSel().Filter("Id", id).One(&v)
+
+	return
 }
 
 // GetAllFirmaElectronica retrieves all FirmaElectronica matches certain condition. Returns empty list if

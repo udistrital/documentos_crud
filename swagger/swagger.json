@@ -922,6 +922,9 @@
                 "CodigoAutenticidad": {
                     "type": "string"
                 },
+                "DocumentoId": {
+                    "$ref": "#/definitions/models.Documento"
+                },
                 "FechaCreacion": {
                     "type": "string"
                 },
