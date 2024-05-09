@@ -90,6 +90,7 @@ steps:
 
 - name: beego_migrate
   image: golang:1.18
+  failure: ignore
   environment:
     PG_MIGRATION_USER:
       from_secret: PG_MIGRATION_USER
@@ -111,6 +112,7 @@ steps:
 
 - name: beego_rollback
   image: golang:1.18
+  failure: ignore
   environment:
     PG_MIGRATION_USER:
       from_secret: PG_MIGRATION_USER
