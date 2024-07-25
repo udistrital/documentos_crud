@@ -59,8 +59,31 @@ func (c *FirmaElectronicaController) Post() {
 // @router /:id [get]
 func (c *FirmaElectronicaController) GetOne() {
 	id := c.Ctx.Input.Param(":id")
-	v, err := models.GetFirmaElectronicaById(id)
+	v, err1 := models.GetFirmaElectronicaById(id)
+	//Inicio manipulación repuesta
+	//Creación mapa
+	var data map[string]interface{}
+	//Conversion de string a mapa
+	err := json.Unmarshal([]byte(v.DocumentoId.Metadatos), &data)
 	if err != nil {
+		logs.Error(err)
+		c.Data["system"] = err
+		c.Abort("404")
+	}
+	//Elimino y transformo a string de nuevo
+	if llaves, ok := data["llaves"].(map[string]interface{}); ok {
+		delete(llaves, "llave_privada")
+	}
+	modifiedJson, err := json.Marshal(data)
+	if err != nil {
+		logs.Error(err)
+		c.Data["system"] = err
+		c.Abort("404")
+	}
+	//Reasigno al campo de la estructura
+	v.DocumentoId.Metadatos = string(modifiedJson)
+	//Fin manipulación respuesta
+	if err1 != nil {
 		logs.Error(err)
 		//c.Data["development"] = map[string]interface{}{"Code": "404", "Body": err.Error(), "Type": "error"}
 		c.Data["system"] = err
