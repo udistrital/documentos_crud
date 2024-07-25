@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"reflect"
@@ -55,10 +56,28 @@ func AddFirmaElectronica(m *FirmaElectronica) (id string, err error) {
 // GetFirmaElectronicaById retrieves FirmaElectronica by Id. Returns error if
 // Id doesn't exist
 func GetFirmaElectronicaById(id string) (v FirmaElectronica, err error) {
-
 	o := orm.NewOrm()
 	err = o.QueryTable(new(FirmaElectronica)).RelatedSel().Filter("Id", id).One(&v)
-
+	if err != nil {
+		return
+	}
+	//Inicio manipulación repuesta
+	//Creación mapa
+	var data map[string]interface{}
+	//Conversion de string a mapa
+	err = json.Unmarshal([]byte(v.Llaves), &data)
+	if err != nil {
+		return
+	}
+	//Elimino y transformo a string de nuevo
+	delete(data, "llave_privada")
+	modifiedJson, err := json.Marshal(data)
+	if err != nil {
+		return
+	}
+	//Reasigno al campo de la estructura
+	v.Llaves = string(modifiedJson)
+	//Fin manipulación respuesta
 	return
 }
 
@@ -93,7 +112,7 @@ func GetAllFirmaElectronica(query map[string]string, fields []string, sortby []s
 				} else if order[i] == "asc" {
 					orderby = v
 				} else {
-					return nil, errors.New("Error: Invalid order. Must be either [asc|desc]")
+					return nil, errors.New("error: Invalid order. Must be either [asc|desc]")
 				}
 				sortFields = append(sortFields, orderby)
 			}
@@ -107,16 +126,16 @@ func GetAllFirmaElectronica(query map[string]string, fields []string, sortby []s
 				} else if order[0] == "asc" {
 					orderby = v
 				} else {
-					return nil, errors.New("Error: Invalid order. Must be either [asc|desc]")
+					return nil, errors.New("error: Invalid order. Must be either [asc|desc]")
 				}
 				sortFields = append(sortFields, orderby)
 			}
 		} else if len(sortby) != len(order) && len(order) != 1 {
-			return nil, errors.New("Error: 'sortby', 'order' sizes mismatch or 'order' size is not 1")
+			return nil, errors.New("error: 'sortby', 'order' sizes mismatch or 'order' size is not 1")
 		}
 	} else {
 		if len(order) != 0 {
-			return nil, errors.New("Error: unused 'order' fields")
+			return nil, errors.New("error: unused 'order' fields")
 		}
 	}
 
@@ -125,11 +144,45 @@ func GetAllFirmaElectronica(query map[string]string, fields []string, sortby []s
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
 			for _, v := range l {
+				//Inicio manipulación repuesta
+				//Creación mapa
+				var data map[string]interface{}
+				//Conversion de string a mapa
+				err = json.Unmarshal([]byte(v.Llaves), &data)
+				if err != nil {
+					return
+				}
+				//Elimino y transformo a string de nuevo
+				delete(data, "llave_privada")
+				modifiedJson, err := json.Marshal(data)
+				if err != nil {
+					return nil, err
+				}
+				//Reasigno al campo de la estructura
+				v.Llaves = string(modifiedJson)
+				//Fin manipulación respuesta
 				ml = append(ml, v)
 			}
 		} else {
 			// trim unused fields
 			for _, v := range l {
+				//Inicio manipulación repuesta
+				//Creación mapa
+				var data map[string]interface{}
+				//Conversion de string a mapa
+				err = json.Unmarshal([]byte(v.Llaves), &data)
+				if err != nil {
+					return
+				}
+				//Elimino y transformo a string de nuevo
+				delete(data, "llave_privada")
+				modifiedJson, err := json.Marshal(data)
+				if err != nil {
+					return nil, err
+				}
+				//Reasigno al campo de la estructura
+				v.Llaves = string(modifiedJson)
+				//Fin manipulación respuesta
 				m := make(map[string]interface{})
 				val := reflect.ValueOf(v)
 				for _, fname := range fields {
