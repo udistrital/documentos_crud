@@ -7,6 +7,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"github.com/udistrital/documentos_crud/models"
+	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 // FirmaElectronicaController operations for FirmaElectronica
@@ -179,6 +180,42 @@ func (c *FirmaElectronicaController) Delete() {
 		//c.Data["development"] = map[string]interface{}{"Code": "404", "Body": err.Error(), "Type": "error"}
 		c.Data["System"] = err
 		c.Abort("404")
+	}
+	c.ServeJSON()
+}
+
+// Put ...
+// @Title Put
+// @Description update the FirmaElectronica
+// @Param	id		path 	string	true		"The id you want to update"
+// @Param	body		body 	models.FirmaElectronica	true		"body for FirmaElectronica content"
+// @Success 200 {object} models.FirmaElectronica
+// @Failure 400 the request contains incorrect syntax
+// @router /:id [put]
+func (c *FirmaElectronicaController) Put() {
+	idStr := c.Ctx.Input.Param(":id")
+	//id, _ := strconv.Atoi(idStr)
+	v := models.FirmaElectronica{Id: idStr}
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
+		//v.FechaCreacion = time_bogota.TiempoCorreccionFormato(v.FechaCreacion)
+		v.FechaModificacion = time_bogota.TiempoBogotaFormato()
+
+		if err := models.UpdateFirmaElectronicaById(&v); err == nil {
+			c.Ctx.Output.SetStatus(200)
+			c.Data["json"] = v
+		} else {
+			logs.Error(err)
+			c.Ctx.Output.SetStatus(400)
+			//c.Data["development"] = map[string]interface{}{"Code": "400", "Body": err.Error(), "Type": "error"}
+			c.Data["System"] = err
+			c.Abort("400")
+		}
+	} else {
+		logs.Error(err)
+		c.Ctx.Output.SetStatus(400)
+		//c.Data["development"] = map[string]interface{}{"Code": "400", "Body": err.Error(), "Type": "error"}
+		c.Data["System"] = err
+		c.Abort("400")
 	}
 	c.ServeJSON()
 }

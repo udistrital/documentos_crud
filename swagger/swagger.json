@@ -473,6 +473,42 @@
                     }
                 }
             },
+            "put": {
+                "tags": [
+                    "firma_electronica"
+                ],
+                "description": "update the FirmaElectronica",
+                "operationId": "FirmaElectronicaController.Put",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "description": "The id you want to update",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "body for FirmaElectronica content",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.FirmaElectronica"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/models.FirmaElectronica"
+                        }
+                    },
+                    "400": {
+                        "description": "the request contains incorrect syntax"
+                    }
+                }
+            },
             "delete": {
                 "tags": [
                     "firma_electronica"
