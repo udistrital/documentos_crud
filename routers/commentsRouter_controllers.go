@@ -133,6 +133,15 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:FirmaElectronicaController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:FirmaElectronicaController"],
+        beego.ControllerComments{
+            Method: "Put",
+            Router: "/:id",
+            AllowHTTPMethods: []string{"put"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/documentos_crud/controllers:SubtipoDocumentoController"],
         beego.ControllerComments{
             Method: "Post",
