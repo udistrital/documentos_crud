@@ -32,8 +32,7 @@ paths:
         type: string
       - in: query
         name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
+        description: Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...
         type: string
       - in: query
         name: limit
@@ -147,8 +146,7 @@ paths:
         type: string
       - in: query
         name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
+        description: Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...
         type: string
       - in: query
         name: limit
@@ -241,6 +239,120 @@ paths:
           description: '{string} delete success!'
         "404":
           description: not found resource
+  /firma_electronica/:
+    get:
+      tags:
+      - firma_electronica
+      description: get FirmaElectronica
+      operationId: FirmaElectronicaController.Get All
+      parameters:
+      - in: query
+        name: query
+        description: Filter. e.g. col1:v1,col2:v2 ...
+        type: string
+      - in: query
+        name: fields
+        description: Fields returned. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: sortby
+        description: Sorted-by fields. e.g. col1,col2 ...
+        type: string
+      - in: query
+        name: order
+        description: Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...
+        type: string
+      - in: query
+        name: limit
+        description: Limit the size of result set. Must be an integer
+        type: string
+      - in: query
+        name: offset
+        description: Start position of result set. Must be an integer
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.FirmaElectronica'
+        "404":
+          description: not found resource
+    post:
+      tags:
+      - firma_electronica
+      description: create FirmaElectronica
+      operationId: FirmaElectronicaController.Post
+      parameters:
+      - in: body
+        name: body
+        description: body for FirmaElectronica content
+        required: true
+        schema:
+          $ref: '#/definitions/models.FirmaElectronica'
+      responses:
+        "201":
+          description: '{int} models.FirmaElectronica'
+        "400":
+          description: the request contains incorrect syntax
+  /firma_electronica/{id}:
+    get:
+      tags:
+      - firma_electronica
+      description: get FirmaElectronica by id
+      operationId: FirmaElectronicaController.Get One
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.FirmaElectronica'
+        "404":
+          description: not found resource
+    put:
+      tags:
+      - firma_electronica
+      description: update the FirmaElectronica
+      operationId: FirmaElectronicaController.Put
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to update
+        required: true
+        type: string
+      - in: body
+        name: body
+        description: body for FirmaElectronica content
+        required: true
+        schema:
+          $ref: '#/definitions/models.FirmaElectronica'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/models.FirmaElectronica'
+        "400":
+          description: the request contains incorrect syntax
+    delete:
+      tags:
+      - firma_electronica
+      description: delete the FirmaElectronica
+      operationId: FirmaElectronicaController.Delete
+      parameters:
+      - in: path
+        name: id
+        description: The id you want to delete
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{string} delete success!'
+        "404":
+          description: not found resource
   /subtipo_documento/:
     get:
       tags:
@@ -262,8 +374,7 @@ paths:
         type: string
       - in: query
         name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
+        description: Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...
         type: string
       - in: query
         name: limit
@@ -377,8 +488,7 @@ paths:
         type: string
       - in: query
         name: order
-        description: Order corresponding to each sortby field, if single value, apply
-          to all sortby fields. e.g. desc,asc ...
+        description: Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ...
         type: string
       - in: query
         name: limit
@@ -517,6 +627,28 @@ definitions:
       NumeroOrden:
         type: number
         format: double
+  models.FirmaElectronica:
+    title: FirmaElectronica
+    type: object
+    properties:
+      Activo:
+        type: boolean
+      CodigoAutenticidad:
+        type: string
+      DocumentoId:
+        $ref: '#/definitions/models.Documento'
+      FechaCreacion:
+        type: string
+      FechaModificacion:
+        type: string
+      FirmaEncriptada:
+        type: string
+      Firmantes:
+        type: string
+      Id:
+        type: string
+      Llaves:
+        type: string
   models.SubtipoDocumento:
     title: SubtipoDocumento
     type: object
@@ -580,3 +712,6 @@ tags:
 - name: dominio_tipo_documento
   description: |
     DominioTipoDocumentoController operations for DominioTipoDocumento
+- name: firma_electronica
+  description: |
+    FirmaElectronicaController operations for FirmaElectronica

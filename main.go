@@ -1,6 +1,8 @@
 package main
 
 import (
+	"net/url"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/plugins/cors"
@@ -10,12 +12,13 @@ import (
 	apistatus "github.com/udistrital/utils_oas/apiStatusLib"
 	"github.com/udistrital/utils_oas/auditoria"
 	"github.com/udistrital/utils_oas/customerror"
+	"github.com/udistrital/utils_oas/xray"
 )
 
 func main() {
 	orm.RegisterDataBase("default", "postgres",
 		"postgres://"+beego.AppConfig.String("PGuser")+
-			":"+beego.AppConfig.String("PGpass")+
+			":"+url.QueryEscape(beego.AppConfig.String("PGpass"))+
 			"@"+beego.AppConfig.String("PGurls")+
 			":"+beego.AppConfig.String("PGport")+
 			"/"+beego.AppConfig.String("PGdb")+
@@ -43,7 +46,7 @@ func main() {
 	logPath += beego.AppConfig.String("logPath")
 	logPath += "\"}"
 	logs.SetLogger(logs.AdapterFile, logPath)*/
-
+	xray.InitXRay()
 	apistatus.Init()
 	auditoria.InitMiddleware()
 	beego.ErrorController(&customerror.CustomErrorController{})
